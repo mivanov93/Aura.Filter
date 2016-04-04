@@ -56,12 +56,13 @@ abstract class AbstractStrlen
      */
     protected function strlen($str)
     {
-        if ($this->iconv()) {
-            return $this->strlenIconv($str);
-        }
 
         if ($this->mbstring()) {
             return mb_strlen($str, 'UTF-8');
+        }
+        
+        if ($this->iconv()) {
+            return $this->strlenIconv($str);
         }
 
         return strlen(utf8_decode($str));
@@ -135,12 +136,13 @@ abstract class AbstractStrlen
      */
     protected function substr($str, $start, $length = null)
     {
-        if ($this->iconv()) {
-            return $this->substrIconv($str, $start, $length);
-        }
-
+        
         if ($this->mbstring()) {
             return mb_substr($str, $start, $length, 'UTF-8');
+        }
+        
+        if ($this->iconv()) {
+            return $this->substrIconv($str, $start, $length);
         }
 
         $split = preg_split("//u", $str, -1, PREG_SPLIT_NO_EMPTY);
